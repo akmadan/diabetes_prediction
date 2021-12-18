@@ -17,7 +17,7 @@ import seaborn as sns
 
 
 
-df = pd.read_csv(![](diabetes.csv))
+df = pd.read_csv(diabetes.csv)
 
 # HEADINGS
 st.title('Diabetes Checkup')
