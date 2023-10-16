@@ -1,7 +1,7 @@
 #pip install streamlit
 #pip install pandas
 #pip install sklearn
-
+#pip install pywhatkit
 
 # IMPORT STATEMENTS
 import streamlit as st
@@ -9,15 +9,23 @@ import pandas as pd
 from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
-import plotly.figure_factory as ff
+#import plotly.figure_factory as ff
 from sklearn.metrics import accuracy_score
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 import seaborn as sns
+from datetime import datetime 
+import pywhatkit
+def do_message(name,number,report):
+    today=datetime.now()
+    hours=int(today.strftime("%H"))
+    minutes=(int(today.strftime("%M"))+2)
+    pywhatkit.sendwhatmsg("+91{}".format(number),"Hi {}\n {}".format(name,report),hours, minutes)
+    st.write("Message sent in whatsapp : )")
 
 
 
-df = pd.read_csv(![](diabetes.csv))
+df = pd.read_csv(("diabetes.csv"))
 
 # HEADINGS
 st.title('Diabetes Checkup')
@@ -44,15 +52,15 @@ def user_report():
   age = st.sidebar.slider('Age', 21,88, 33 )
 
   user_report_data = {
-      'pregnancies':pregnancies,
-      'glucose':glucose,
-      'bp':bp,
-      'skinthickness':skinthickness,
-      'insulin':insulin,
-      'bmi':bmi,
-      'dpf':dpf,
-      'age':age
-  }
+    'Pregnancies':pregnancies,
+    'Glucose':glucose,
+    'BloodPressure':bp,
+    'SkinThickness':skinthickness,
+    'Insulin':insulin,
+    'BMI':bmi,
+    'DiabetesPedigreeFunction':dpf,
+    'Age':age
+}
   report_data = pd.DataFrame(user_report_data, index=[0])
   return report_data
 
@@ -90,7 +98,7 @@ else:
 st.header('Pregnancy count Graph (Others vs Yours)')
 fig_preg = plt.figure()
 ax1 = sns.scatterplot(x = 'Age', y = 'Pregnancies', data = df, hue = 'Outcome', palette = 'Greens')
-ax2 = sns.scatterplot(x = user_data['age'], y = user_data['pregnancies'], s = 150, color = color)
+ax2 = sns.scatterplot(x = user_data['Age'], y = user_data['Pregnancies'], s = 150, color = color)
 plt.xticks(np.arange(10,100,5))
 plt.yticks(np.arange(0,20,2))
 plt.title('0 - Healthy & 1 - Unhealthy')
@@ -102,7 +110,7 @@ st.pyplot(fig_preg)
 st.header('Glucose Value Graph (Others vs Yours)')
 fig_glucose = plt.figure()
 ax3 = sns.scatterplot(x = 'Age', y = 'Glucose', data = df, hue = 'Outcome' , palette='magma')
-ax4 = sns.scatterplot(x = user_data['age'], y = user_data['glucose'], s = 150, color = color)
+ax4 = sns.scatterplot(x = user_data['Age'], y = user_data['Glucose'], s = 150, color = color)
 plt.xticks(np.arange(10,100,5))
 plt.yticks(np.arange(0,220,10))
 plt.title('0 - Healthy & 1 - Unhealthy')
@@ -114,7 +122,7 @@ st.pyplot(fig_glucose)
 st.header('Blood Pressure Value Graph (Others vs Yours)')
 fig_bp = plt.figure()
 ax5 = sns.scatterplot(x = 'Age', y = 'BloodPressure', data = df, hue = 'Outcome', palette='Reds')
-ax6 = sns.scatterplot(x = user_data['age'], y = user_data['bp'], s = 150, color = color)
+ax6 = sns.scatterplot(x = user_data['Age'], y = user_data['BloodPressure'], s = 150, color = color)
 plt.xticks(np.arange(10,100,5))
 plt.yticks(np.arange(0,130,10))
 plt.title('0 - Healthy & 1 - Unhealthy')
@@ -125,7 +133,7 @@ st.pyplot(fig_bp)
 st.header('Skin Thickness Value Graph (Others vs Yours)')
 fig_st = plt.figure()
 ax7 = sns.scatterplot(x = 'Age', y = 'SkinThickness', data = df, hue = 'Outcome', palette='Blues')
-ax8 = sns.scatterplot(x = user_data['age'], y = user_data['skinthickness'], s = 150, color = color)
+ax8 = sns.scatterplot(x = user_data['Age'], y = user_data['SkinThickness'], s = 150, color = color)
 plt.xticks(np.arange(10,100,5))
 plt.yticks(np.arange(0,110,10))
 plt.title('0 - Healthy & 1 - Unhealthy')
@@ -136,7 +144,7 @@ st.pyplot(fig_st)
 st.header('Insulin Value Graph (Others vs Yours)')
 fig_i = plt.figure()
 ax9 = sns.scatterplot(x = 'Age', y = 'Insulin', data = df, hue = 'Outcome', palette='rocket')
-ax10 = sns.scatterplot(x = user_data['age'], y = user_data['insulin'], s = 150, color = color)
+ax10 = sns.scatterplot(x = user_data['Age'], y = user_data['Insulin'], s = 150, color = color)
 plt.xticks(np.arange(10,100,5))
 plt.yticks(np.arange(0,900,50))
 plt.title('0 - Healthy & 1 - Unhealthy')
@@ -147,7 +155,7 @@ st.pyplot(fig_i)
 st.header('BMI Value Graph (Others vs Yours)')
 fig_bmi = plt.figure()
 ax11 = sns.scatterplot(x = 'Age', y = 'BMI', data = df, hue = 'Outcome', palette='rainbow')
-ax12 = sns.scatterplot(x = user_data['age'], y = user_data['bmi'], s = 150, color = color)
+ax12 = sns.scatterplot(x = user_data['Age'], y = user_data['BMI'], s = 150, color = color)
 plt.xticks(np.arange(10,100,5))
 plt.yticks(np.arange(0,70,5))
 plt.title('0 - Healthy & 1 - Unhealthy')
@@ -158,7 +166,7 @@ st.pyplot(fig_bmi)
 st.header('DPF Value Graph (Others vs Yours)')
 fig_dpf = plt.figure()
 ax13 = sns.scatterplot(x = 'Age', y = 'DiabetesPedigreeFunction', data = df, hue = 'Outcome', palette='YlOrBr')
-ax14 = sns.scatterplot(x = user_data['age'], y = user_data['dpf'], s = 150, color = color)
+ax14 = sns.scatterplot(x = user_data['Age'], y = user_data['DiabetesPedigreeFunction'], s = 150, color = color)
 plt.xticks(np.arange(10,100,5))
 plt.yticks(np.arange(0,3,0.2))
 plt.title('0 - Healthy & 1 - Unhealthy')
@@ -176,3 +184,11 @@ else:
 st.title(output)
 st.subheader('Accuracy: ')
 st.write(str(accuracy_score(y_test, rf.predict(x_test))*100)+'%')
+def invoke_message():
+    do_message(st.session_state.name,st.session_state.number,output)
+
+st.title("Get the report")
+with st.form(key="my_form"):
+    st.text_input("Name", key="name")
+    st.text_input("Number", key="number")
+    st.form_submit_button("Whatsapp", on_click=invoke_message)
